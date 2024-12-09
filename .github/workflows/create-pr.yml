@@ -56,4 +56,6 @@ jobs:
           git push --set-upstream origin ${branch_name}
 
       - name: Create pull request
+        env:
+          GH_TOKEN: ${{ secrets.TOKEN }}
         run: gh pr create -B master -H ${branch_name} --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
