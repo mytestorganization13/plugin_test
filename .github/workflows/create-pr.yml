@@ -53,4 +53,6 @@ jobs:
       - name: Create Pull Request
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        run: git push --set-upstream origin $BRANCH_NAME
+        run: |
+          echo $BRANCH_NAME
+          git push --set-upstream origin $BRANCH_NAME
