@@ -8,6 +8,9 @@ on:
     branches:
       - '**'
 
+env:
+  BRANCH_NAME: "${{ github.head_ref }}-added-files"
+
 permissions:
   contents: write
   pull-requests: write
@@ -34,29 +37,24 @@ jobs:
 
       - name: Create a new branch for the PR
         run: |
-          BRANCH_NAME="${{ github.head_ref }}-added-files"
-          git checkout -b $BRANCH_NAME
+          git checkout -b ${{ BRANCH_NAME }}
 
       - name: Run Gradle task from plugin
         run: ./gradlew build -parallel
 
       - name: Commit generated file
         run: |
-          if [ -z "${{ github.event.pull_request.user.email }}" ]; then
-            git config --global user.email "no-email@users.noreply.github.com"
-          else
-            git config --global user.email "${{ github.event.pull_request.user.email }}"
-          fi
-          
-          git status
-          
-          git config --global user.name "${{ github.event.pull_request.user.login }}"
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "github-actions"
           git add -A
           git commit -m "Add files"
 
-      - name: Create Pull Request
+      - name: Push to GitHub
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: |
           git remote set-url origin https://${GITHUB_TOKEN}@github.com/olegmak02/plugin_test.git
-          git push --set-upstream origin "${{ github.head_ref }}-added-files"
+          git push --set-upstream origin ${{ BRANCH_NAME }}
+
+      - name: Create pull request
+        run: gh pr create -B master -H ${{ BRANCH_NAME }} --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
