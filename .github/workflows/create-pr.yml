@@ -1,8 +1,12 @@
 name: Generate File and Create Pull Request
 
 on:
+  push:
+    branches:
+      - "main"
   pull_request:
-    - "**"
+    branches:
+      - '**'
 
 jobs:
   generate-and-create-pr:
