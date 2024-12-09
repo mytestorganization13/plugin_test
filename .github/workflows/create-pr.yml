@@ -8,6 +8,10 @@ on:
     branches:
       - '**'
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   generate-and-create-pr:
     runs-on: ubuntu-latest
@@ -54,4 +58,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: |
+          git remote set-url origin https://${GITHUB_TOKEN}@github.com/username/repository.git
           git push --set-upstream origin "${{ github.head_ref }}-added-files"
