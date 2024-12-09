@@ -28,13 +28,13 @@ jobs:
       - name: Gradle Set up
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Run myTask
-        run: ./gradlew build
-
       - name: Create a new branch for the PR
         run: |
           BRANCH_NAME="${{ github.head_ref }}-added-files"
           git checkout -b $BRANCH_NAME
+
+      - name: Run Gradle task from plugin
+        run: ./gradlew build
 
       - name: Commit generated file
         run: |
