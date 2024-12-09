@@ -34,7 +34,7 @@ jobs:
           git checkout -b $BRANCH_NAME
 
       - name: Run Gradle task from plugin
-        run: ./gradlew build
+        run: ./gradlew build -parallel
 
       - name: Commit generated file
         run: |
@@ -54,7 +54,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: |
-          echo abc
-          echo "${{ github.head_ref }}-added-files"
-          echo def
-          git push --set-upstream origin $BRANCH_NAME
+          git push --set-upstream origin "${{ github.head_ref }}-added-files"
