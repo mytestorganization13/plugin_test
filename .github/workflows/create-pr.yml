@@ -54,5 +54,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: |
+          echo abc
           echo $BRANCH_NAME
+          echo def
           git push --set-upstream origin $BRANCH_NAME
