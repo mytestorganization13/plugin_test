@@ -45,17 +45,16 @@ jobs:
         run: |
           git config --global user.email "github-actions@github.com"
           git config --global user.name "github-actions"
-          git add -A
-          git commit -m "Add files"
+          git commit -am "Add files"
 
       - name: Push to GitHub
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: |
           git remote set-url origin https://${GITHUB_TOKEN}@github.com/olegmak02/plugin_test.git
-          git push --set-upstream origin ${branch_name}
+          git push -u origin ${branch_name}
 
       - name: Create pull request
         env:
           GH_TOKEN: ${{ secrets.TOKEN }}
-        run: gh pr create -B master -H ${branch_name} --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
+        run: gh pr create --fill
