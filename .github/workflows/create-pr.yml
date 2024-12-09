@@ -40,6 +40,9 @@ jobs:
           else
             git config --global user.email "${{ github.event.pull_request.user.email }}"
           fi
+          
+          git status
+          
           git config --global user.name "${{ github.event.pull_request.user.login }}"
           git add -A
           git commit -m "Add files"
