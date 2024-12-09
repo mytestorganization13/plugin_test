@@ -54,4 +54,4 @@ jobs:
       - name: Create Pull Request
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        run: git push --set-upstream origin feature/test-feature-added-files
+        run: git push --set-upstream origin $BRANCH_NAME
