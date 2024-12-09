@@ -49,7 +49,6 @@ jobs:
           git config --global user.name "${{ github.event.pull_request.user.login }}"
           git add -A
           git commit -m "Add files"
-          git push --set-upstream origin $BRANCH_NAME
 
       - name: Create Pull Request
         env:
