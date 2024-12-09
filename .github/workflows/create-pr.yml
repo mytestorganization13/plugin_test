@@ -12,13 +12,12 @@ permissions:
   contents: write
   pull-requests: write
 
+env:
+  branch_name: "${{ github.head_ref }}-added-files"
+
 jobs:
   generate-and-create-pr:
     runs-on: ubuntu-latest
-
-    env:
-      BRANCH_NAME: "${{ github.head_ref }}-added-files"
-
 
     steps:
       - name: Checkout code
@@ -37,7 +36,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Create a new branch for the PR
-        run: git checkout -b ${{ BRANCH_NAME }}
+        run: git checkout -b ${ branch_name }
 
       - name: Run Gradle task from plugin
         run: ./gradlew build -parallel
@@ -54,7 +53,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: |
           git remote set-url origin https://${GITHUB_TOKEN}@github.com/olegmak02/plugin_test.git
-          git push --set-upstream origin ${{ BRANCH_NAME }}
+          git push --set-upstream origin ${ branch_name }
 
       - name: Create pull request
-        run: gh pr create -B master -H ${{ BRANCH_NAME }} --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
+        run: gh pr create -B master -H ${ branch_name } --title 'Merge branch_to_merge into base_branch' --body 'Created by Github action'
