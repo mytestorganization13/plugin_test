@@ -38,7 +38,11 @@ jobs:
 
       - name: Commit generated file
         run: |
-          git config --global user.email "${{ github.event.pull_request.user.email || no-email@users.noreply.github.com }}"
+          if [ -z "${{ github.event.pull_request.user.email }}" ]; then
+            git config --global user.email "no-email@users.noreply.github.com"
+          else
+            git config --global user.email "${{ github.event.pull_request.user.email }}"
+          fi
           git config --global user.name "${{ github.event.pull_request.user.login }}"
           git add -A
           git commit -m "Add files"
