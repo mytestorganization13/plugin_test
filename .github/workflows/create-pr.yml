@@ -58,5 +58,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: |
-          git remote set-url origin https://${GITHUB_TOKEN}@github.com/username/repository.git
+          git remote set-url origin https://${GITHUB_TOKEN}@github.com/olegmak02/plugin_test.git
           git push --set-upstream origin "${{ github.head_ref }}-added-files"
