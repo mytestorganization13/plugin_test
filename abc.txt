@@ -1,1 +1,0 @@
-This is a sample text inside abc.txt file.
