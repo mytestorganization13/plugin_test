@@ -15,7 +15,7 @@ class MyPlugin : Plugin<Project> {
 
 open class CreatePullRequestTask : DefaultTask() {
 
-    private val branchName = project.findProperty("branch")?.toString()
+    private val branchName = project.findProperty("branch")?.toString() ?: "feature/added-generated-ids"
 
     @TaskAction
     fun createPullRequest() {
@@ -33,7 +33,7 @@ open class CreatePullRequestTask : DefaultTask() {
         executeCommand("git config --global user.email 'github-actions@github.com'")
         executeCommand("git config --global user.name 'github-actions'")
         executeCommand("git add .")
-        executeCommand("git commit -m 'Add files'")
+        executeCommand("git commit -m 'added generated ids'")
     }
 
     private fun pushChanges() {
@@ -41,3 +41,20 @@ open class CreatePullRequestTask : DefaultTask() {
         executeCommand(gitPushCommand)
     }
 }
+
+//open class InvokeMethod : DefaultTask() {
+//    @TaskAction
+//    fun invokeMethod() {
+//        val appContext = org.springframework.boot.builder.SpringApplicationBuilder()
+//            .sources(Start::class.java)
+//            .run()
+//
+//        val myService = appContext.getBean<MyComponent>("myComponent")
+//
+//        // Call the runTask method
+//        myService.sayHello()
+//
+//        // Close the application context after use
+//        appContext.close()
+//    }
+//}
