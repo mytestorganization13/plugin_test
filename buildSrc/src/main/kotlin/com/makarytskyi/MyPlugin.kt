@@ -46,34 +46,15 @@ open class CreatePullRequestTask : DefaultTask() {
 //    @TaskAction
 //    fun invokeMethod() {
 //        val appContext = org.springframework.boot.builder.SpringApplicationBuilder()
-//            .sources(com.example.MyApplication::class.java) // your Spring Boot main class
-//            .web(false)  // Set to false if you don't need a web server
+//            .sources(Start::class.java)
 //            .run()
 //
-//        // Access the MyService bean
-//        val myService = appContext.getBean(com.example.MyService::class.java)
+//        val myService = appContext.getBean<MyComponent>("myComponent")
 //
 //        // Call the runTask method
-//        myService.runTask()
+//        myService.sayHello()
 //
 //        // Close the application context after use
 //        appContext.close()
-//    }
-//
-//    private fun executeCommand(command: String): String {
-//        val process = ProcessBuilder(command.split(" ")).start()
-//        return process.inputStream.bufferedReader().readText()
-//    }
-//
-//    private fun commitChanges() {
-//        executeCommand("git config --global user.email 'github-actions@github.com'")
-//        executeCommand("git config --global user.name 'github-actions'")
-//        executeCommand("git add .")
-//        executeCommand("git commit -m 'Add files'")
-//    }
-//
-//    private fun pushChanges() {
-//        val gitPushCommand = "git push -u origin $branchName"
-//        executeCommand(gitPushCommand)
 //    }
 //}
