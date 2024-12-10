@@ -66,19 +66,7 @@ open class CreatePullRequestTask : DefaultTask() {
     }
 
     private fun createPullRequestOnGitHub() {
-        val process = ProcessBuilder(
-            "gh",
-            "pr",
-            "create",
-            "--head",
-            branchName,
-            "--base",
-            targetBranch,
-            "--title",
-            "'Automated PR'",
-            "--body",
-            "'This PR is automatically created via Gradle plugin.'"
-        ).start()
+        val process = ProcessBuilder("gh", "pr", "create", "--fill").start()
         val output = process.inputStream.bufferedReader().readText()
         println(output)
     }
