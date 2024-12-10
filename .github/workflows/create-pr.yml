@@ -45,7 +45,8 @@ jobs:
         run: |
           git config --global user.email "github-actions@github.com"
           git config --global user.name "github-actions"
-          git commit -am "Add files"
+          git add .
+          git commit -m "Add files"
 
       - name: Push to GitHub
         env:
