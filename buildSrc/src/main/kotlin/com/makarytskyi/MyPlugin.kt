@@ -15,7 +15,7 @@ class MyPlugin : Plugin<Project> {
 
 open class CreatePullRequestTask : DefaultTask() {
 
-    private val branchName = project.findProperty("branch")?.toString()
+    private val branchName = project.findProperty("branch")?.toString() ?: "feature/added-generated-ids"
 
     @TaskAction
     fun createPullRequest() {
@@ -33,7 +33,7 @@ open class CreatePullRequestTask : DefaultTask() {
         executeCommand("git config --global user.email 'github-actions@github.com'")
         executeCommand("git config --global user.name 'github-actions'")
         executeCommand("git add .")
-        executeCommand("git commit -m 'Add files'")
+        executeCommand("git commit -m 'added generated ids'")
     }
 
     private fun pushChanges() {
@@ -41,3 +41,39 @@ open class CreatePullRequestTask : DefaultTask() {
         executeCommand(gitPushCommand)
     }
 }
+
+//open class InvokeMethod : DefaultTask() {
+//    @TaskAction
+//    fun invokeMethod() {
+//        val appContext = org.springframework.boot.builder.SpringApplicationBuilder()
+//            .sources(com.example.MyApplication::class.java) // your Spring Boot main class
+//            .web(false)  // Set to false if you don't need a web server
+//            .run()
+//
+//        // Access the MyService bean
+//        val myService = appContext.getBean(com.example.MyService::class.java)
+//
+//        // Call the runTask method
+//        myService.runTask()
+//
+//        // Close the application context after use
+//        appContext.close()
+//    }
+//
+//    private fun executeCommand(command: String): String {
+//        val process = ProcessBuilder(command.split(" ")).start()
+//        return process.inputStream.bufferedReader().readText()
+//    }
+//
+//    private fun commitChanges() {
+//        executeCommand("git config --global user.email 'github-actions@github.com'")
+//        executeCommand("git config --global user.name 'github-actions'")
+//        executeCommand("git add .")
+//        executeCommand("git commit -m 'Add files'")
+//    }
+//
+//    private fun pushChanges() {
+//        val gitPushCommand = "git push -u origin $branchName"
+//        executeCommand(gitPushCommand)
+//    }
+//}
