@@ -1,7 +1,5 @@
 package com.makarytskyi
 
-import java.io.BufferedReader
-import java.io.InputStreamReader
 import java.nio.file.Files
 import java.nio.file.Paths
 import org.gradle.api.DefaultTask
@@ -17,39 +15,18 @@ class MyPlugin : Plugin<Project> {
 
 open class CreatePullRequestTask : DefaultTask() {
 
-    private val branchName = getNewBranchName()
-    private val targetBranch = "main"
+    private val branchName = project.findProperty("branch")?.toString()
 
     @TaskAction
     fun createPullRequest() {
-        executeCommand("git checkout -b $branchName")
-        //executeGradleBuild()
         Files.write(Paths.get("newFile.txt"), "Hello, World!".toByteArray())
         commitChanges()
         pushChanges()
-        createPullRequestOnGitHub()
     }
 
     private fun executeCommand(command: String): String {
         val process = ProcessBuilder(command.split(" ")).start()
         return process.inputStream.bufferedReader().readText()
-    }
-
-    private fun getNewBranchName(): String {
-        val command = "git log --merges --oneline main -n 1 --pretty=format:\"%s\""
-
-        val process = ProcessBuilder("bash", "-c", command).start()
-        val reader = BufferedReader(InputStreamReader(process.inputStream))
-        val commitMessage = reader.readText().trim()
-
-        val branch = commitMessage.split("from")[1].trim()
-        return "$branch-added-files"
-    }
-
-    private fun executeGradleBuild() {
-        val process = ProcessBuilder("./gradlew", "build", "-parallel").start()
-        val output = process.inputStream.bufferedReader().readText()
-        println(output)
     }
 
     private fun commitChanges() {
@@ -62,11 +39,5 @@ open class CreatePullRequestTask : DefaultTask() {
     private fun pushChanges() {
         val gitPushCommand = "git push -u origin $branchName"
         executeCommand(gitPushCommand)
-    }
-
-    private fun createPullRequestOnGitHub() {
-        val process = ProcessBuilder("gh", "pr", "create", "--fill").start()
-        val output = process.inputStream.bufferedReader().readText()
-        println(output)
     }
 }

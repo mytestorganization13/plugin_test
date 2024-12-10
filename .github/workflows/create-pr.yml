@@ -10,6 +10,9 @@ permissions:
   contents: write
   pull-requests: write
 
+env:
+  new-branch: ${{ github.head_ref }}-added-files
+
 jobs:
   generate-and-create-pr:
     runs-on: ubuntu-latest
@@ -30,7 +33,18 @@ jobs:
       - name: Gradle Set up
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Create PR
+      - name: Checkout new branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${new-branch}
+
+      - name: Main work
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        run: ./gradlew myTask
+        run: ./gradlew myTask -Pbranch=${new-branch}
+
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.TOKEN }}
+          branch: ${{ github.head_ref }}
