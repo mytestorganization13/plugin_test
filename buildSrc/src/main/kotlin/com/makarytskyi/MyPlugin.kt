@@ -19,7 +19,6 @@ open class CreatePullRequestTask : DefaultTask() {
 
     private val branchName = getNewBranchName()
     private val targetBranch = "main"
-    private val githubToken = System.getenv("GITHUB_TOKEN")
 
     @TaskAction
     fun createPullRequest() {
