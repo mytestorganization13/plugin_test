@@ -9,9 +9,6 @@ permissions:
   contents: write
   pull-requests: write
 
-env:
-  branch_name: "${{ github.head_ref || github.ref_name }}-added-files"
-
 jobs:
   generate-and-create-pr:
     runs-on: ubuntu-latest
@@ -32,27 +29,32 @@ jobs:
       - name: Gradle Set up
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Create a new branch for the PR
-        run: git checkout -b ${branch_name}
-
-      - name: Run Gradle task from plugin
-        run: ./gradlew build -parallel
-
-      - name: Commit generated file
-        run: |
-          git config --global user.email "github-actions@github.com"
-          git config --global user.name "github-actions"
-          git add .
-          git commit -m "Add files"
-
-      - name: Push to GitHub
+      - name: Create PR
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
-        run: |
-          git remote set-url origin https://${GITHUB_TOKEN}@github.com/olegmak02/plugin_test.git
-          git push -u origin ${branch_name}
+        run: ./gradlew myTask
 
-      - name: Create pull request
-        env:
-          GH_TOKEN: ${{ secrets.TOKEN }}
-        run: gh pr create --fill
+#      - name: Create a new branch for the PR
+#        run: git checkout -b ${branch_name}
+#
+#      - name: Run Gradle task from plugin
+#        run: ./gradlew build -parallel
+#
+#      - name: Commit generated file
+#        run: |
+#          git config --global user.email "github-actions@github.com"
+#          git config --global user.name "github-actions"
+#          git add .
+#          git commit -m "Add files"
+#
+#      - name: Push to GitHub
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.TOKEN }}
+#        run: |
+#          git remote set-url origin https://${GITHUB_TOKEN}@github.com/olegmak02/plugin_test.git
+#          git push -u origin ${branch_name}
+#
+#      - name: Create pull request
+#        env:
+#          GH_TOKEN: ${{ secrets.TOKEN }}
+#        run: gh pr create --fill
