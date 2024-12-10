@@ -1,5 +1,9 @@
 package com.makarytskyi
 
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.nio.file.Files
+import java.nio.file.Paths
 import org.gradle.api.DefaultTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -13,28 +17,34 @@ class MyPlugin : Plugin<Project> {
 
 open class CreatePullRequestTask : DefaultTask() {
 
-    private val branchName = getBranchName()
+    private val branchName = getNewBranchName()
     private val targetBranch = "main"
     private val githubToken = System.getenv("GITHUB_TOKEN")
 
     @TaskAction
     fun createPullRequest() {
         executeCommand("git checkout -b $branchName")
-        executeGradleBuild()
+        //executeGradleBuild()
+        Files.write(Paths.get("newFile.txt"), "Hello, World!".toByteArray())
         commitChanges()
         pushChanges()
         createPullRequestOnGitHub()
     }
 
-    private fun executeCommand(command: String) {
+    private fun executeCommand(command: String): String {
         val process = ProcessBuilder(command.split(" ")).start()
-        val output = process.inputStream.bufferedReader().readText()
-        println(output)
+        return process.inputStream.bufferedReader().readText()
     }
 
-    private fun getBranchName(): String {
-        val branchName = executeCommand("gh pr list -s merged -B main -L 1 --json headRefName -q '.[0].headRefName'")
-        return "$branchName-add-files"
+    private fun getNewBranchName(): String {
+        val command = "git log --merges --oneline main -n 1 --pretty=format:\"%s\""
+
+        val process = ProcessBuilder("bash", "-c", command).start()
+        val reader = BufferedReader(InputStreamReader(process.inputStream))
+        val commitMessage = reader.readText().trim()
+
+        val branch = commitMessage.split("from")[1].trim()
+        return "$branch-added-files"
     }
 
     private fun executeGradleBuild() {
@@ -44,7 +54,6 @@ open class CreatePullRequestTask : DefaultTask() {
     }
 
     private fun commitChanges() {
-        println("Committing changes...")
         executeCommand("git config --global user.email 'github-actions@github.com'")
         executeCommand("git config --global user.name 'github-actions'")
         executeCommand("git add .")
@@ -52,13 +61,11 @@ open class CreatePullRequestTask : DefaultTask() {
     }
 
     private fun pushChanges() {
-        println("Pushing changes to GitHub...")
         val gitPushCommand = "git push -u origin $branchName"
         executeCommand(gitPushCommand)
     }
 
     private fun createPullRequestOnGitHub() {
-        println("Creating pull request from $branchName to $targetBranch...")
         val process = ProcessBuilder("gh", "pr", "create", "--head", branchName, "--base", targetBranch, "--title", "Automated PR", "--body", "This PR is automatically created via Gradle plugin.").start()
         val output = process.inputStream.bufferedReader().readText()
         println(output)
