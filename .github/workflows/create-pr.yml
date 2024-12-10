@@ -43,12 +43,12 @@ jobs:
       - name: Checkout new branch
         uses: actions/checkout@v4
         with:
-          ref: ${new-branch}
+          ref: ${{ env.new-branch }}
 
       - name: Main work
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./gradlew myTask -Pbranch=${new-branch}
+        run: ./gradlew myTask -Pbranch=${{ env.new-branch }}
 
       - name: Create PR
         uses: peter-evans/create-pull-request@v7
