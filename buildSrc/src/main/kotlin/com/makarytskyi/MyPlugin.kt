@@ -13,7 +13,7 @@ class MyPlugin : Plugin<Project> {
 
 open class CreatePullRequestTask : DefaultTask() {
 
-    private val branchName = "feature/pr-branch-${System.currentTimeMillis()}"
+    private val branchName = getBranchName()
     private val targetBranch = "main"
     private val githubToken = System.getenv("GITHUB_TOKEN")
 
@@ -30,6 +30,11 @@ open class CreatePullRequestTask : DefaultTask() {
         val process = ProcessBuilder(command.split(" ")).start()
         val output = process.inputStream.bufferedReader().readText()
         println(output)
+    }
+
+    private fun getBranchName(): String {
+        val branchName = executeCommand("gh pr list -s merged -B main -L 1 --json headRefName -q '.[0].headRefName'")
+        return "$branchName-add-files"
     }
 
     private fun executeGradleBuild() {
