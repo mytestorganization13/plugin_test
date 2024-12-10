@@ -33,28 +33,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
         run: ./gradlew myTask
-
-#      - name: Create a new branch for the PR
-#        run: git checkout -b ${branch_name}
-#
-#      - name: Run Gradle task from plugin
-#        run: ./gradlew build -parallel
-#
-#      - name: Commit generated file
-#        run: |
-#          git config --global user.email "github-actions@github.com"
-#          git config --global user.name "github-actions"
-#          git add .
-#          git commit -m "Add files"
-#
-#      - name: Push to GitHub
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-#        run: |
-#          git remote set-url origin https://${GITHUB_TOKEN}@github.com/olegmak02/plugin_test.git
-#          git push -u origin ${branch_name}
-#
-#      - name: Create pull request
-#        env:
-#          GH_TOKEN: ${{ secrets.TOKEN }}
-#        run: gh pr create --fill
