@@ -10,7 +10,7 @@ permissions:
   pull-requests: write
 
 env:
-  branch_name: "${{ github.ref }}-added-files"
+  branch_name: "${{ github.head_ref || github.ref_name }}-added-files"
 
 jobs:
   generate-and-create-pr:
