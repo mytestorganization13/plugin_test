@@ -3,10 +3,7 @@ name: Generate File and Create Pull Request
 on:
   push:
     branches:
-      - "main"
-  pull_request:
-    branches:
-      - '**'
+      - "master"
 
 permissions:
   contents: write
