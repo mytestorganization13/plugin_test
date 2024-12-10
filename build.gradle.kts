@@ -7,10 +7,6 @@ plugins {
 
 apply<MyPlugin>()
 
-tasks.named("build") {
-    dependsOn("myTask")
-}
-
 group = "com.makarytskyi"
 version = "1.0-SNAPSHOT"
 
