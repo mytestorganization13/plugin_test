@@ -38,7 +38,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          branch: ${{ new-branch }}
+          branch: ${{ env.new-branch }}
 
       - name: Checkout new branch
         uses: actions/checkout@v4
