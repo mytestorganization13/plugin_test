@@ -1,17 +1,18 @@
 name: Generate File and Create Pull Request
 
 on:
+  push:
+    branches: [ "main" ]
   pull_request:
     branches:
-      - "main"
-    types: [ closed ]
+      - "**"
 
 permissions:
   contents: write
   pull-requests: write
 
 env:
-  new-branch: ${{ github.head_ref }}-added-files
+  new_branch: ${{ github.head_ref }}-added-files
 
 jobs:
   generate-and-create-pr:
@@ -35,25 +36,30 @@ jobs:
 
       - name: Create branch
         uses: peterjgrainger/action-create-branch@v2.2.0
+        if: github.event.pull_request.merged == true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          branch: ${{ env.new-branch }}
+          branch: ${{ env.new_branch }}
 
       - name: Checkout new branch
         uses: actions/checkout@v4
+        if: github.event.pull_request.merged == true
         with:
-          ref: ${{ env.new-branch }}
+          ref: ${{ env.new_branch }}
 
       - name: Main work
+        if: github.event.pull_request.merged == true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./gradlew commitPushTask -Pbranch=${{ env.new-branch }}
+        run: |
+          ./gradlew generateIds
+          ./gradlew commitPushTask -Pbranch=${{ env.new_branch }}
 
       - name: Create PR
         uses: peter-evans/create-pull-request@v7
+        if: github.event.pull_request.merged == true
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ env.new-branch }}
+          branch: ${{ env.new_branch }}
           base: "main"
-
