@@ -1,11 +1,17 @@
 name: Generate File and Create Pull Request
 
+#on:
+#  push:
+#    branches: [ "main" ]
+#  pull_request:
+#    branches:
+#      - "main"
+
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
     branches:
-      - "**"
+      - "main"
+    types: [ closed ]
 
 permissions:
   contents: write
@@ -34,10 +40,14 @@ jobs:
       - name: Gradle Set up
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Echo variables
+        run: |
+          echo ${{ github.event }}
+
       - name: Create branch
         uses: peterjgrainger/action-create-branch@v2.2.0
         if: |
-          github.event.pull_request.merged == true &&
+          github.event.push == true &&
           !contains(github.event.pull_request.labels.*.name, 'generated')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
