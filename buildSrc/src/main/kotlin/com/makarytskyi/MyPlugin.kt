@@ -2,13 +2,12 @@ package com.makarytskyi
 
 import java.nio.file.Files
 import java.nio.file.Paths
-import jdk.javadoc.internal.tool.Start
 import org.gradle.api.DefaultTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskAction
 
-internal class MyPlugin : Plugin<Project> {
+class MyPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.tasks.register("commitPushTask", CommitPushTask::class.java)
         project.tasks.register("generateIds", GenerateIds::class.java)
@@ -50,6 +49,6 @@ class CommitPushTask : DefaultTask() {
 open class GenerateIds : DefaultTask() {
     @TaskAction
     fun invokeMethod() {
-        Files.write(Paths.get("newFile.txt"), "Hello, World!".toByteArray())
+        Files.write(Paths.get("newFile.txt"), "Hello, World!".toByteArray()) // temporary functionality
     }
 }
