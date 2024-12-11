@@ -30,8 +30,8 @@ open class CreatePullRequestTask : DefaultTask() {
     }
 
     private fun commitChanges() {
-        executeCommand("git config --global user.email 'github-actions@github.com'")
-        executeCommand("git config --global user.name 'github-actions'")
+        executeCommand("git config --global user.email 'githb-acti@github.com'")
+        executeCommand("git config --global user.name 'githb-acti'")
         executeCommand("git add .")
         executeCommand("git commit -m 'added generated ids'")
     }
