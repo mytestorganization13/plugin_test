@@ -14,7 +14,7 @@ class MyPlugin : Plugin<Project> {
     }
 }
 
-class CommitPushTask : DefaultTask() {
+open class CommitPushTask : DefaultTask() {
 
     private val branchName = project.findProperty(BRANCH_PROPERTY)?.toString() ?: DEFAULT_BRANCH
 
