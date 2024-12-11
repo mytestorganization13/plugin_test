@@ -1,5 +1,3 @@
-import com.makarytskyi.MyPlugin
-
 plugins {
     `kotlin-dsl`
     kotlin("jvm") version "1.7.10"
@@ -7,8 +5,6 @@ plugins {
     id("io.spring.dependency-management") version "1.1.6"
     id("org.jetbrains.kotlin.plugin.spring") version "2.1.0"
 }
-
-apply<MyPlugin>()
 
 group = "com.makarytskyi"
 version = "1.0-SNAPSHOT"
