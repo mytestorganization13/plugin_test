@@ -7,19 +7,19 @@ import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskAction
 
-class MyPlugin : Plugin<Project> {
+internal class MyPlugin : Plugin<Project> {
     override fun apply(project: Project) {
-        project.tasks.register("myTask", CreatePullRequestTask::class.java)
+        project.tasks.register("commitPushTask", CommitPushTask::class.java)
+        project.tasks.register("generateIds", GenerateIds::class.java)
     }
 }
 
-open class CreatePullRequestTask : DefaultTask() {
+class CommitPushTask : DefaultTask() {
 
-    private val branchName = project.findProperty("branch")?.toString() ?: "feature/added-generated-ids"
+    private val branchName = project.findProperty(BRANCH_PROPERTY)?.toString() ?: DEFAULT_BRANCH
 
     @TaskAction
-    fun createPullRequest() {
-        Files.write(Paths.get("newFile.txt"), "Hello, World!".toByteArray())
+    fun commitAndPush() {
         commitChanges()
         pushChanges()
     }
@@ -30,19 +30,26 @@ open class CreatePullRequestTask : DefaultTask() {
     }
 
     private fun commitChanges() {
-        executeCommand("git add .")
-        executeCommand("git commit -m 'added generated ids'")
+        executeCommand(COMMIT_COMMAND)
     }
 
     private fun pushChanges() {
         val gitPushCommand = "git push -u origin $branchName"
         executeCommand(gitPushCommand)
     }
+
+    companion object {
+        private const val BRANCH_PROPERTY: String = "branch"
+        private const val COMMIT_MESSAGE: String = "Automatically added files with generated ids"
+        private const val DEFAULT_BRANCH: String = "feature/added-generated-ids"
+        private const val COMMIT_COMMAND = "git add -A && git commit -m '$COMMIT_MESSAGE'"
+    }
 }
 
-//open class InvokeMethod : DefaultTask() {
-//    @TaskAction
-//    fun invokeMethod() {
+open class GenerateIds : DefaultTask() {
+    @TaskAction
+    fun invokeMethod() {
+        Files.write(Paths.get("newFile.txt"), "Hello, World!".toByteArray())
 //        val appContext = org.springframework.boot.builder.SpringApplicationBuilder()
 //            .sources(Start::class.java)
 //            .run()
@@ -54,5 +61,5 @@ open class CreatePullRequestTask : DefaultTask() {
 //
 //        // Close the application context after use
 //        appContext.close()
-//    }
-//}
+    }
+}
