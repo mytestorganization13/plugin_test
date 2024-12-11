@@ -48,7 +48,7 @@ jobs:
       - name: Main work
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./gradlew myTask -Pbranch=${{ env.new-branch }}
+        run: ./gradlew commitPushTask -Pbranch=${{ env.new-branch }}
 
       - name: Create PR
         uses: peter-evans/create-pull-request@v7

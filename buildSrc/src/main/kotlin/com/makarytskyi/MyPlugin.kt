@@ -9,13 +9,13 @@ import org.gradle.api.tasks.TaskAction
 
 class MyPlugin : Plugin<Project> {
     override fun apply(project: Project) {
-        project.tasks.register("myTask", CreatePullRequestTask::class.java)
+        project.tasks.register("commitPushTask", CommitPushTask::class.java)
     }
 }
 
-open class CreatePullRequestTask : DefaultTask() {
+open class CommitPushTask : DefaultTask() {
 
-    private val branchName = project.findProperty("branch")?.toString() ?: "feature/added-generated-ids"
+    private val branchName = project.findProperty(branchProperty)?.toString() ?:defaultBranch
 
     @TaskAction
     fun createPullRequest() {
@@ -31,12 +31,18 @@ open class CreatePullRequestTask : DefaultTask() {
 
     private fun commitChanges() {
         executeCommand("git add .")
-        executeCommand("git commit -m 'added generated ids'")
+        executeCommand("git commit -m '$commitMessage'")
     }
 
     private fun pushChanges() {
         val gitPushCommand = "git push -u origin $branchName"
         executeCommand(gitPushCommand)
+    }
+
+    companion object {
+        const val branchProperty: String = "branch"
+        const val commitMessage: String = "Automatically added files with generated ids"
+        const val defaultBranch: String = "feature/added-generated-ids"
     }
 }
 
