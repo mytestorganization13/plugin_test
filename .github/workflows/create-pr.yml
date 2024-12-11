@@ -1,17 +1,17 @@
 name: Generate File and Create Pull Request
 
-#on:
-#  push:
-#    branches: [ "main" ]
-#  pull_request:
-#    branches:
-#      - "main"
-
 on:
+  push:
+    branches: [ "main" ]
   pull_request:
     branches:
       - "main"
-    types: [ closed ]
+
+#on:
+#  pull_request:
+#    branches:
+#      - "main"
+#    types: [ closed ]
 
 permissions:
   contents: write
