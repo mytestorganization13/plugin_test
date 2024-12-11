@@ -34,6 +34,10 @@ jobs:
       - name: Gradle Set up
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Echo variables
+        run: |
+          echo ${{ github.event }}
+
       - name: Create branch
         uses: peterjgrainger/action-create-branch@v2.2.0
         if: |
