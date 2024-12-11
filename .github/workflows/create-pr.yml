@@ -36,7 +36,9 @@ jobs:
 
       - name: Create branch
         uses: peterjgrainger/action-create-branch@v2.2.0
-        if: github.event.pull_request.merged == true
+        if: |
+          github.event.pull_request.merged == true &&
+          contains(github.event.pull_request.labels.*.name, 'generate-id')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -44,12 +46,12 @@ jobs:
 
       - name: Checkout new branch
         uses: actions/checkout@v4
-        if: github.event.pull_request.merged == true
+        if: success()
         with:
           ref: ${{ env.new_branch }}
 
       - name: Main work
-        if: github.event.pull_request.merged == true
+        if: success()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -58,7 +60,7 @@ jobs:
 
       - name: Create PR
         uses: peter-evans/create-pull-request@v7
-        if: github.event.pull_request.merged == true
+        if: success()
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ env.new_branch }}
