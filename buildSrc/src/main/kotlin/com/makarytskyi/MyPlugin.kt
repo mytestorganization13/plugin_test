@@ -2,6 +2,7 @@ package com.makarytskyi
 
 import java.nio.file.Files
 import java.nio.file.Paths
+import jdk.javadoc.internal.tool.Start
 import org.gradle.api.DefaultTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -50,16 +51,5 @@ open class GenerateIds : DefaultTask() {
     @TaskAction
     fun invokeMethod() {
         Files.write(Paths.get("newFile.txt"), "Hello, World!".toByteArray())
-//        val appContext = org.springframework.boot.builder.SpringApplicationBuilder()
-//            .sources(Start::class.java)
-//            .run()
-//
-//        val myService = appContext.getBean<MyComponent>("myComponent")
-//
-//        // Call the runTask method
-//        myService.sayHello()
-//
-//        // Close the application context after use
-//        appContext.close()
     }
 }
