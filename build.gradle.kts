@@ -15,16 +15,6 @@ repositories {
     mavenLocal()
 }
 
-
-
-sourceSets {
-    main {
-        kotlin {
-            srcDirs("src/main/java")
-        }
-    }
-}
-
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -39,4 +29,25 @@ configurations {
         exclude(group = "ch.qos.logback", module = "logback-classic")
         exclude(group = "org.apache.logging.log4j", module = "log4j-to-slf4j")
     }
+}
+
+tasks.register("commit") {
+    doLast {
+        val commitMessage = "Automatically added files with generated ids"
+        val commitCommand = "git add -A && git commit -m '$commitMessage'"
+        executeCommand(commitCommand)
+    }
+}
+
+tasks.register("push") {
+    doLast {
+        val branchName = project.findProperty("branch")?.toString() ?: "feature/added-generated-ids"
+        val gitPushCommand = "git push -u origin $branchName"
+        executeCommand(gitPushCommand)
+    }
+}
+
+fun executeCommand(command: String): String {
+    val process = ProcessBuilder(command.split(" ")).start()
+    return process.inputStream.bufferedReader().readText()
 }

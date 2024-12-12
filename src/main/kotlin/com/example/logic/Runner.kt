@@ -4,13 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 
-//@Component
-class RunnerClass : CommandLineRunner {
+@Component
+class Runner : CommandLineRunner {
     @Autowired
-    private lateinit var component: MyComponent
+    private lateinit var myComponent: MyComponent
 
     override fun run(vararg args: String?) {
-        println("Hello, Spring Boot with Kotlin!")
-        component.createFile()
+        myComponent.createFile()
     }
 }
