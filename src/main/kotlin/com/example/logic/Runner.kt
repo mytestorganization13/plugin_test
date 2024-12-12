@@ -1,15 +1,17 @@
 package com.example.logic
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.CommandLineRunner
+import org.springframework.boot.context.event.ApplicationReadyEvent
+import org.springframework.context.event.EventListener
 import org.springframework.stereotype.Component
 
 @Component
-class Runner : CommandLineRunner {
+class Runner {
     @Autowired
     private lateinit var myComponent: MyComponent
 
-    override fun run(vararg args: String?) {
+    @EventListener(ApplicationReadyEvent::class)
+    fun run(vararg args: String?) {
         myComponent.createFile()
     }
 }
