@@ -1,9 +1,10 @@
 plugins {
-    `kotlin-dsl`
-    kotlin("jvm") version "1.7.10"
+    kotlin("jvm") version "2.0.0"
     id("org.springframework.boot") version "3.3.0"
     id("io.spring.dependency-management") version "1.1.6"
     id("org.jetbrains.kotlin.plugin.spring") version "2.1.0"
+    `kotlin-dsl`
+    `java-gradle-plugin`
 }
 
 group = "com.makarytskyi"
@@ -11,6 +12,17 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    mavenLocal()
+}
+
+
+
+sourceSets {
+    main {
+        kotlin {
+            srcDirs("src/main/java")
+        }
+    }
 }
 
 dependencies {
@@ -18,7 +30,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springframework.boot:spring-boot-starter")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("ch.qos.logback:logback-classic:1.2.3")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
