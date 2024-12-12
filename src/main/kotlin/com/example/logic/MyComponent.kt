@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class MyComponent {
+
     @Autowired
     private lateinit var creator: Creator
 
