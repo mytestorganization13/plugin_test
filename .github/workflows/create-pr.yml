@@ -37,8 +37,11 @@ jobs:
 
 
       - name: CHECK
-        run: echo ${{ github.event.pull_request.labels.*.name }}
-
+        run: |
+          echo "Labels associated with the PR:"
+          for label in "${{ github.event.pull_request.labels[*].name }}"; do
+            echo "$label"
+          done
 
       - name: Create branch
         uses: peterjgrainger/action-create-branch@v2.2.0
