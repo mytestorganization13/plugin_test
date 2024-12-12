@@ -37,12 +37,12 @@ jobs:
 
 
       - name: CHECK
+        run: echo ${{ github.event.pull_request.labels.*.name }}
         if: github.event.push == true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           branch: ${{ env.new_branch }}
-        run: echo ${{ github.event.pull_request.labels.*.name }}
 
 
 
