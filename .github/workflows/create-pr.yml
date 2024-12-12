@@ -37,7 +37,6 @@ jobs:
 
 
       - name: CHECK
-        if: github.event.push == true
         run: echo ${{ github.event.pull_request.labels.*.name }}
 
 
