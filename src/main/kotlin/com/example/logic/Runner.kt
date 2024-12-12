@@ -12,7 +12,7 @@ class Runner {
     private lateinit var myComponent: MyComponent
 
     @EventListener(ApplicationReadyEvent::class)
-    fun run(vararg args: String?) {
+    fun run() {
         myComponent.createFile()
     }
 }
