@@ -12,7 +12,7 @@ permissions:
   pull-requests: write
 
 env:
-  label: code
+  label: ' code '
 
 jobs:
   generate-and-create-pr:
@@ -37,7 +37,6 @@ jobs:
       - name: Get PR labels
         id: pr-labels
         uses: irby/get-labels-on-push@v1.0.1
-#        if: ${{ github.event == 'push' }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
