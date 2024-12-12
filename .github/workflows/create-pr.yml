@@ -39,7 +39,7 @@ jobs:
       - name: CHECK
         run: |
           echo "Labels associated with the PR:"
-          for label in "${{ github.event.pull_request.labels[*].name }}"; do
+          for label in "${{ github.event.pull_request.labels }}"; do
             echo "$label"
           done
 
