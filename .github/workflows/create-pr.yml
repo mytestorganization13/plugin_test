@@ -66,6 +66,7 @@ jobs:
 #          ./gradlew generateIds
 #          ./gradlew commitPushTask -Pbranch=${{ env.new_branch }}
 
+
       - name: Create PR
         uses: peter-evans/create-pull-request@v7
         if: ${{ steps.get_previous_status.outputs.result == success() }}
