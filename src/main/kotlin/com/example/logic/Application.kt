@@ -7,19 +7,7 @@ import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 
 @SpringBootApplication
-class Application {
-
-    @Autowired
-    lateinit var component: MyComponent
-
-    @Bean
-    fun commandLineRunner(): CommandLineRunner {
-        return CommandLineRunner {
-            println("Hello, Spring Boot with Kotlin!")
-            component.createFile()
-        }
-    }
-}
+class Application
 
 fun main(args: Array<String>) {
     runApplication<Application>(*args)

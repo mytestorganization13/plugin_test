@@ -1,13 +1,17 @@
 package com.example.plugin
 
+import com.example.logic.Application
+import com.example.logic.Creator
 import org.gradle.api.DefaultTask
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.tasks.TaskAction
 import com.example.logic.MyComponent
+import org.gradle.api.tasks.JavaExec
 import org.springframework.beans.factory.getBean
+import org.springframework.boot.builder.SpringApplicationBuilder
 
-class MyPlugin : Plugin<Project> {
+open class MyPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.tasks.register("commitPushTask", CommitPushTask::class.java)
         project.tasks.register("generateIds", GenerateIds::class.java)
@@ -49,7 +53,7 @@ class CommitPushTask : DefaultTask() {
 class GenerateIds : DefaultTask() {
     @TaskAction
     fun invokeMethod() {
-        val appContext = org.springframework.boot.builder.SpringApplicationBuilder()
+        val appContext = SpringApplicationBuilder()
             .sources(MyComponent::class.java)
             .run()
 
@@ -57,4 +61,14 @@ class GenerateIds : DefaultTask() {
         myService.createFile()
         appContext.close()
     }
+}
+
+fun main() {
+    val appContext = SpringApplicationBuilder()
+        .sources(Application::class.java)
+        .run()
+
+    val myService = appContext.getBean<MyComponent>("myComponent")
+    myService.createFile()
+    appContext.close()
 }

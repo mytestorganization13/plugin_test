@@ -7,18 +7,13 @@ on:
     branches:
       - "main"
 
-#on:
-#  pull_request:
-#    branches:
-#      - "main"
-#    types: [ closed ]
-
 permissions:
   contents: write
   pull-requests: write
 
 env:
   new_branch: ${{ github.head_ref }}-added-files
+  label: code
 
 jobs:
   generate-and-create-pr:
@@ -40,11 +35,22 @@ jobs:
       - name: Gradle Set up
         uses: gradle/actions/setup-gradle@v4
 
+
+      - name: CHECK
+        if: github.event.push == true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          branch: ${{ env.new_branch }}
+        run: echo ${{ github.event.pull_request.labels.*.name }}
+
+
+
       - name: Create branch
         uses: peterjgrainger/action-create-branch@v2.2.0
         if: |
           github.event.push == true &&
-          !contains(github.event.pull_request.labels.*.name, 'generated')
+          contains(github.event.pull_request.labels.*.name, ${{ env.label }})
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -56,13 +62,13 @@ jobs:
         with:
           ref: ${{ env.new_branch }}
 
-      - name: Main work
-        if: ${{ steps.get_previous_status.outputs.result == success() }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          ./gradlew generateIds
-          ./gradlew commitPushTask -Pbranch=${{ env.new_branch }}
+#      - name: Main work
+#        if: ${{ steps.get_previous_status.outputs.result == success() }}
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        run: |
+#          ./gradlew generateIds
+#          ./gradlew commitPushTask -Pbranch=${{ env.new_branch }}
 
       - name: Create PR
         uses: peter-evans/create-pull-request@v7
@@ -70,5 +76,5 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ env.new_branch }}
-          labels: "generated"
+          labels: ${{ env.label }}
           base: "main"
