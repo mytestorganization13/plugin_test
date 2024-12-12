@@ -49,7 +49,6 @@ jobs:
           B=${{ steps.pr-labels.outcome }}
           C=${{ steps.pr-labels.outcome.result }}
           D=${{ steps.pr-labels.result }}
-          E=${{ failure() }}
 
       - name: Create branch
         uses: peterjgrainger/action-create-branch@v2.2.0
