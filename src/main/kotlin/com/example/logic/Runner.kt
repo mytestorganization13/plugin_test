@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class Runner {
+
     @Autowired
     private lateinit var myComponent: MyComponent
 
