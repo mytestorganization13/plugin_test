@@ -74,4 +74,3 @@ jobs:
           ./gradlew bootRun
           ./gradlew commitAllChanges
           ./gradlew pushToMaster -PcurrentBranch=${{ env.new_branch }}
-
