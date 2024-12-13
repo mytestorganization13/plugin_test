@@ -45,7 +45,7 @@ tasks.register("commitAllChanges") {
 
 tasks.register("pushToMaster") {
     doFirst {
-        val gitPushCommand = listOf("git", "push", "-u", "origin", "master")
+        val gitPushCommand = listOf("git", "push", "origin", "main")
         executeCommand(gitPushCommand)
     }
 }
