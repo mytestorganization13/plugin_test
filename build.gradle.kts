@@ -47,8 +47,8 @@ tasks.register("push") {
 }
 
 fun executeCommand(command: String): String {
-    val split = command.split(" ")
-    val process = ProcessBuilder(split).start()
+//    val split = command.split(" ")
+    val process = ProcessBuilder(command).start()
     val output = process.inputStream.bufferedReader().readText()
     println("error ======== ${process.errorStream.bufferedReader().readText()}")
     process.waitFor()
