@@ -6,10 +6,10 @@ on:
   pull_request:
     branches:
       - "main"
-
-permissions:
-  contents: write
-  pull-requests: write
+#
+#permissions:
+#  contents: write
+#  pull-requests: write
 
 env:
   label: " code "
