@@ -69,6 +69,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ./gradlew bootRun
-          ./gradlew commit
+          ./gradlew commitAllChanges
           ./gradlew pushToMaster
-
