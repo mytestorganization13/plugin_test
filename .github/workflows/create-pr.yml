@@ -10,6 +10,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  actions: write
 
 env:
   label: " code "
@@ -68,6 +69,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
           ./gradlew bootRun
           ./gradlew commitAllChanges
-          ./gradlew pushToMaster
+          ./gradlew pushToMaster -PcurrentBranch=${{ env.new_branch }}

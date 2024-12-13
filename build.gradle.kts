@@ -45,13 +45,17 @@ tasks.register("commitAllChanges") {
 
 tasks.register("pushToMaster") {
     doFirst {
-        val gitPushCommand = listOf("git", "push", "-u", "origin", "master")
+        val branch = project.findProperty("currentBranch")?.toString()
+        val gitPushCommand = listOf("git", "push", "origin", "main:$branch")
         executeCommand(gitPushCommand)
     }
 }
 
 fun executeCommand(command: List<String>): String {
     val process = ProcessBuilder(command).start()
-    return process.inputStream.bufferedReader().readText()
+    val output = process.inputStream.bufferedReader().readText()
+    val error = process.errorStream.bufferedReader().readText()
+    println("output=================== $output")
+    println("error==================== $error")
+    return output
 }
-
