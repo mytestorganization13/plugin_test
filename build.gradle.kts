@@ -32,11 +32,9 @@ configurations {
 }
 
 tasks.register("commit") {
-    doFirst {
+    doLast {
         val commitMessage = "Automatically added changed files with generated ids"
-        val addCommand = "git add -A"
-        val commitCommand = "git commit -m '$commitMessage'"
-        executeCommand(addCommand)
+        val commitCommand = "git add -A && git commit -m '$commitMessage'"
         executeCommand(commitCommand)
     }
 }
