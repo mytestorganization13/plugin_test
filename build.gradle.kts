@@ -33,13 +33,13 @@ configurations {
 
 tasks.register("commit") {
     doLast {
-        val commitMessage = "Automatically added files with generated ids"
+        val commitMessage = "Automatically added changed files with generated ids"
         val commitCommand = "git add -A && git commit -m '$commitMessage'"
         executeCommand(commitCommand)
     }
 }
 
-tasks.register("pushToMaster") {
+tasks.register("push") {
     doLast {
         val gitPushCommand = "git push -u origin master"
         executeCommand(gitPushCommand)
