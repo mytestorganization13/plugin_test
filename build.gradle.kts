@@ -52,5 +52,9 @@ tasks.register("pushToMaster") {
 
 fun executeCommand(command: List<String>): String {
     val process = ProcessBuilder(command).start()
-    return process.inputStream.bufferedReader().readText()
+    val output = process.inputStream.bufferedReader().readText()
+    val error = process.errorStream.bufferedReader().readText()
+    println("output=================== $output")
+    println("error==================== $error")
+    return output
 }
