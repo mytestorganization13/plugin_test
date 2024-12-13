@@ -70,13 +70,4 @@ jobs:
         run: |
           ./gradlew bootRun
           ./gradlew commit
-          ./gradlew push -Pbranch=${{ env.new_branch }}
-
-      - name: Create PR
-        uses: peter-evans/create-pull-request@v7
-        if: ${{ steps.generate-branch.outcome != 'skipped'  }}
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ env.new_branch }}
-          base: "main"
-
+          ./gradlew pushToMaster
