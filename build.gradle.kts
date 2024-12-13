@@ -46,7 +46,7 @@ tasks.register("commitAllChanges") {
 tasks.register("pushToMaster") {
     doFirst {
         val branch = project.findProperty("currentBranch")?.toString()
-        val gitPushCommand = listOf("git", "push", "origin", "main:$branch")
+        val gitPushCommand = listOf("git", "push")
         executeCommand(gitPushCommand)
     }
 }
