@@ -50,3 +50,4 @@ fun executeCommand(command: String): String {
     val process = ProcessBuilder(command.split(" ")).start()
     return process.inputStream.bufferedReader().readText()
 }
+
