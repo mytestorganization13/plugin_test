@@ -11,7 +11,6 @@ permissions:
   contents: write
   pull-requests: write
 
-
 env:
   label: " code "
 
