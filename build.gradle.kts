@@ -39,9 +39,10 @@ tasks.register("commit") {
     }
 }
 
-tasks.register("pushToMaster") {
+tasks.register("push") {
     doLast {
-        val gitPushCommand = "git push -u origin master"
+        val branchName = project.findProperty("branch")?.toString() ?: "feature/added-generated-ids"
+        val gitPushCommand = "git push -u origin $branchName"
         executeCommand(gitPushCommand)
     }
 }
