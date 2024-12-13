@@ -33,7 +33,7 @@ configurations {
 
 tasks.register("commit") {
     doLast {
-        val commitMessage = "Automatically added files with generated ids"
+        val commitMessage = "Automatically added changed files with generated ids"
         val commitCommand = "git add -A && git commit -m '$commitMessage'"
         executeCommand(commitCommand)
     }
@@ -41,8 +41,7 @@ tasks.register("commit") {
 
 tasks.register("push") {
     doLast {
-        val branchName = project.findProperty("branch")?.toString() ?: "feature/added-generated-ids"
-        val gitPushCommand = "git push -u origin $branchName"
+        val gitPushCommand = "git push -u origin master"
         executeCommand(gitPushCommand)
     }
 }
