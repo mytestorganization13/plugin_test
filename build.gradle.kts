@@ -32,22 +32,28 @@ configurations {
 }
 
 tasks.register("commit") {
-    doLast {
+    doFirst {
         val commitMessage = "Automatically added changed files with generated ids"
-        val commitCommand = "git add -A && git commit -m '$commitMessage'"
+        val addCommand = "git add -A"
+        val commitCommand = "git commit -m '$commitMessage'"
+        executeCommand(addCommand)
         executeCommand(commitCommand)
     }
 }
 
 tasks.register("push") {
-    doLast {
+    doFirst {
         val gitPushCommand = "git push -u origin master"
         executeCommand(gitPushCommand)
     }
 }
 
 fun executeCommand(command: String): String {
-    val process = ProcessBuilder(command.split(" ")).start()
-    return process.inputStream.bufferedReader().readText()
+    val split = command.split(" ")
+    val process = ProcessBuilder(split).start()
+    val output = process.inputStream.bufferedReader().readText()
+    println("error ======== ${process.errorStream.bufferedReader().readText()}")
+    process.waitFor()
+    return output
 }
 
