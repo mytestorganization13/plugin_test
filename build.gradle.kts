@@ -54,4 +54,3 @@ fun executeCommand(command: List<String>): String {
     val process = ProcessBuilder(command).start()
     return process.inputStream.bufferedReader().readText()
 }
-
