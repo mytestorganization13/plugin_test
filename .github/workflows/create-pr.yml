@@ -76,6 +76,7 @@ jobs:
           ./gradlew pushToMaster -PgeneratedBranch=${{ env.new_branch }}
 
       - name: Create PR
+        id: create-pr
         uses: peter-evans/create-pull-request@v7
         if: ${{ steps.generate-branch.outcome != 'skipped'  }}
         with:
@@ -83,7 +84,9 @@ jobs:
           branch: ${{ env.new_branch }}
           base: 'master'
 
-      - name: automerge
-        uses: "pascalgn/automerge-action@v0.16.4"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}"
+      - name: Merge Pull Request
+        uses: juliangruber/merge-pull-request-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          number: ${{ steps.create-pr.outputs.pull-request-number }}
+          repo: juliangruber/octokit-action
