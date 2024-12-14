@@ -84,7 +84,6 @@ jobs:
           branch: ${{ env.new_branch }}
           base: 'main'
 
-
       - name: ECHO
         run : echo "Pull Request Number - ${{ steps.create-pr.outputs.pull-request-number }}"
 
