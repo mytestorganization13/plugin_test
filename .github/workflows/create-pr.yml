@@ -72,7 +72,7 @@ jobs:
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
           ./gradlew bootRun
-          ./gradlew commitAllChanges
+#          ./gradlew commitAllChanges
 
       - name: Create PR
         id: create-pr
@@ -81,6 +81,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ env.new_branch }}
+          commit-message: "Automatically added changed files with generated ids"
           base: 'main'
 
       - name: ECHO
