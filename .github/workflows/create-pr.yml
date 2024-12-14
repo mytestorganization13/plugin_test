@@ -73,7 +73,6 @@ jobs:
           git config --global user.email "github-actions@github.com"
           ./gradlew bootRun
           ./gradlew commitAllChanges
-#          ./gradlew pushToMaster -PgeneratedBranch=${{ env.new_branch }}
 
       - name: Create PR
         id: create-pr
