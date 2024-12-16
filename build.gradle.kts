@@ -30,25 +30,3 @@ configurations {
         exclude(group = "org.apache.logging.log4j", module = "log4j-to-slf4j")
     }
 }
-
-tasks.register("commitAllChanges") {
-    doLast {
-        val commitMessage = "Automatically added changed files with generated ids"
-
-        val addCommand = listOf("git", "add", "-A")
-        executeCommand(addCommand)
-
-        val commitCommand = listOf("git", "commit", "-m", commitMessage)
-        executeCommand(commitCommand)
-    }
-}
-
-fun executeCommand(command: List<String>): String {
-    val process = ProcessBuilder(command).start()
-    val output = process.inputStream.bufferedReader().readText()
-    val error = process.errorStream.bufferedReader().readText()
-    println("output=================== $output")
-    println("error==================== $error")
-    return output
-}
-
