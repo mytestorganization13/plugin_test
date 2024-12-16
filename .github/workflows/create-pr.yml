@@ -3,9 +3,6 @@ name: Generate File and Create Pull Request
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches:
-      - "main"
 
 permissions:
   contents: write
@@ -42,7 +39,7 @@ jobs:
 
       - name: Checkout new branch
         uses: actions/checkout@v4
-        if: ${{ steps.generate-branch.outcome != 'skipped'  }}
+        if: ${{ !cancelled() && contains(steps.pr-labels.outputs.labels, env.label) }}
         with:
           ref: 'main'
 
