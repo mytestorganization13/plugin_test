@@ -76,8 +76,7 @@ jobs:
         if: ${{ !cancelled() }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          ./gradlew bootRun
+        run: ./gradlew bootRun
 
       - name: Create PR
         id: create-pr
@@ -96,4 +95,3 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           number: ${{ steps.create-pr.outputs.pull-request-number }}
           repo: olegmak02/plugin_test
-
