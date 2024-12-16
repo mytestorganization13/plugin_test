@@ -30,3 +30,9 @@ configurations {
         exclude(group = "org.apache.logging.log4j", module = "log4j-to-slf4j")
     }
 }
+
+tasks.processResources {
+    if (System.getenv("GITHUB_ACTIONS").isNullOrBlank()) {
+        filesMatching("**/application.yaml") { expand(project.properties) }
+    }
+}
