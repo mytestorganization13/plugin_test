@@ -43,15 +43,6 @@ tasks.register("commitAllChanges") {
     }
 }
 
-tasks.register("pushToMaster") {
-    doFirst {
-        val generatedBranch = project.findProperty("generatedBranch")?.toString()
-            ?: "autogenerate/added-generated-changes"
-        val gitPushCommand = listOf("git", "push", "-u", "origin", generatedBranch)
-        executeCommand(gitPushCommand)
-    }
-}
-
 fun executeCommand(command: List<String>): String {
     val process = ProcessBuilder(command).start()
     val output = process.inputStream.bufferedReader().readText()
