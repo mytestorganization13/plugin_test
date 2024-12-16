@@ -40,6 +40,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+
       - name: Generate PR branch name
         id: generate-branch
         if: ${{ !cancelled() && contains(steps.pr-labels.outputs.labels, env.label) }}
