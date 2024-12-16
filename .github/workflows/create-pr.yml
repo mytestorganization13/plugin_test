@@ -42,6 +42,14 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
         if: ${{ github.event_name == 'push' }}
 
+      - name: Skip early
+        if: ${{ steps.pr-labels.outcome == 'skipped' || !contains(steps.pr-labels.outputs.labels, env.label) }}
+        run: |
+          gh run cancel ${{ github.run_id }}
+          gh run watch ${{ github.run_id }}
+        env:
+          GH_TOKEN: ${{ secrets. GITHUB_TOKEN }}
+
       - name: Generate branch name
         id: generate-branch
         if: ${{ steps.pr-labels.outcome != 'skipped' && contains(steps.pr-labels.outputs.labels, env.label) }}
@@ -84,9 +92,6 @@ jobs:
           branch: ${{ env.new_branch }}
           commit-message: "Automatically added changed files with generated ids"
           base: 'main'
-
-      - name: ECHO
-        run : echo "Pull Request Number - ${{ steps.create-pr.outputs.pull-request-number }}"
 
       - name: Merge Pull Request
         uses: juliangruber/merge-pull-request-action@v1
