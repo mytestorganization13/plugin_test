@@ -3,9 +3,6 @@ name: Generate File and Create Pull Request
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches:
-      - "main"
 
 permissions:
   contents: write
@@ -42,7 +39,7 @@ jobs:
 
       - name: Checkout new branch
         uses: actions/checkout@v4
-        if: ${{ steps.generate-branch.outcome != 'skipped'  }}
+        if: ${{ !cancelled() && contains(steps.pr-labels.outputs.labels, env.label) }}
         with:
           ref: 'main'
 
@@ -51,6 +48,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "github-actions"
           ./gradlew bootRun
           git commit -am "Automatically added changed files with generated ids"
           git push
