@@ -88,4 +88,3 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           number: ${{ steps.create-pr.outputs.pull-request-number }}
-#          repo: olegmak02/plugin_test
