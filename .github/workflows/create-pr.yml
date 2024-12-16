@@ -10,7 +10,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
-#  actions: write
+  actions: write
 
 env:
   label: " code "
@@ -88,5 +88,5 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           number: ${{ steps.create-pr.outputs.pull-request-number }}
-          repo: olegmak02/plugin_test
+#          repo: olegmak02/plugin_test
 
