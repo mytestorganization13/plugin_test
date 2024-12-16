@@ -69,7 +69,7 @@ jobs:
         with:
           ref: ${{ env.new_branch }}
 
-      - name: Main work
+      - name: Run Main Code
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: ./gradlew bootRun
