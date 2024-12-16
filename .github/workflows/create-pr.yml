@@ -53,3 +53,4 @@ jobs:
           ./gradlew bootRun
           git commit -am "Automatically added changed files with generated ids"
           git push
+
