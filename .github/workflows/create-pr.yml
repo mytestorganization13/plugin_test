@@ -76,8 +76,7 @@ jobs:
         if: ${{ !cancelled() }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          ./gradlew bootRun
+        run: ./gradlew bootRun
 
       - name: Create PR
         id: create-pr
