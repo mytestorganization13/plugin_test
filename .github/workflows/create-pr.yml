@@ -55,4 +55,3 @@ jobs:
           git add -A
           git commit -m "Automatically added changed files with generated ids"
           git push
-
